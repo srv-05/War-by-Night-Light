@@ -114,7 +114,7 @@ Light**. Thec4.9 GB of raw source is *not* in git; only the small derived panels
 Run both of them on seperate terminal windows.
 
 ```bash
-flask --app backend.app run --port 5000     # backend :5000
+flask --app backend.app run --port 5050     # backend :5050
 ```
 
 ```bash

@@ -73,12 +73,12 @@ export const api = {
   recoveryTradeoff: () => request("/recovery-tradeoff"),
 
   /*
-   * Retrieves spillover analysis data for a country over a specific time range.
+   * Retrieves the spillover network for a country in a given year.
    */
-  spillover: (iso3, start, end) => request("/spillover/" + iso3, { start, end }),
+  spillover: (iso3, year) => request("/spillover/" + iso3, { year }),
 
   /*
-   * Retrieves trade shock data for a specific country.
+   * Retrieves trade shock data for a specific country in a given year.
    */
-  trade: (iso3) => request(`/trade/${iso3}`),
+  trade: (iso3, year) => request(`/trade/${iso3}`, { year }),
 };

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
-from flask import Blueprint
+from flask import Blueprint, request
 
 import config
 from backend import db
@@ -78,19 +78,28 @@ def _partner_realignment(iso3: str, onset_year, min_year: int, max_year: int, na
     partners.sort(key=lambda d: d["after_kusd"], reverse=True)
     return {"partners": partners, "before_window": [b0, b1], "after_window": [a0, a1]}
 
-def _commodities_export(iso3: str) -> list[dict]:
+def _commodities_export(iso3: str, year=None):
     """
-    Identifies the top exported commodities for a given country and breaks down the export values by destination.
+    Top exported commodities for a country in a given year, broken down by
+    destination, with each commodity's year-over-year world-price change. The
+    sankey table is now per-year; if ``year`` is missing/unavailable the most
+    recent available year for that country is used. Returns
+    ``(commodities, year_used, available_years)``.
     """
     try:
         df = db.plot5_trade_sankey()
     except FileNotFoundError:
-        return []
-    
+        return [], None, []
+
     country_df = df[df["origin"] == iso3]
     if country_df.empty:
-        return []
-        
+        return [], None, []
+
+    available_years = sorted(int(y) for y in country_df["year"].dropna().unique()) if "year" in country_df.columns else []
+    year_used = year if year in available_years else (available_years[-1] if available_years else None)
+    if year_used is not None and "year" in country_df.columns:
+        country_df = country_df[country_df["year"] == year_used]
+
     agg = country_df.groupby(["commodity_code", "commodity_name"]).agg({
         "trade_value_kusd": "sum",
         "world_price_change_pct": "first"
@@ -123,7 +132,7 @@ def _commodities_export(iso3: str) -> list[dict]:
             "price_change_pct": round(float(row["world_price_change_pct"]), 1),
             "destinations": destinations
         })
-    return results
+    return results, year_used, available_years
 
 
 @bp.get("/trade/<iso3>")
@@ -133,6 +142,7 @@ def trade(iso3: str):
     Returns timeseries data, partner realignment, commodity details, and a ranking among conflict countries.
     """
     iso3 = iso3.upper()
+    req_year = request.args.get("year", type=int)
     panel = db.plot5_trade()
     sub = panel[panel["iso3"] == iso3].sort_values("year")
 
@@ -152,7 +162,7 @@ def trade(iso3: str):
     pivot_year = max(sanction_years) if sanction_years else onset_year
     name_map = dict(zip(panel["iso3"], panel["country"]))
     realignment = _partner_realignment(iso3, pivot_year, min_year, max_year, name_map)
-    commodities = _commodities_export(iso3)
+    commodities, trade_year, trade_available_years = _commodities_export(iso3, req_year)
 
     # Compute a ranking of countries by their degree of excess trade loss.
     conf = panel[panel["has_conflict"]].dropna(subset=["excess_trade_loss"])
@@ -172,6 +182,8 @@ def trade(iso3: str):
         has_conflict=bool(sub["has_conflict"].iloc[0]),
         is_commodity_exporter=bool(sub["is_commodity_exporter"].iloc[0]),
         excess_trade_loss=(None if not np.isfinite(sub["excess_trade_loss"].iloc[0]) else round(float(sub["excess_trade_loss"].iloc[0]), 1)),
+        trade_year=trade_year,
+        trade_available_years=trade_available_years,
         sanctions=sanctions,
         ranking=_clean(ranking.to_dict(orient="records")),
         caveats=CAVEATS,

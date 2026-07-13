@@ -191,6 +191,12 @@ SPILLOVER_MIN_OVERLAP_MONTHS = 6
 SPILLOVER_POST_BUFFER_MONTHS = 6
 SPILLOVER_MAX_LAG_MONTHS = 3
 
+# A country is treated as "in conflict" in a calendar year when its ACLED
+# fatalities that year reach this threshold. Used to compute the per-year
+# spillover network (Plot 4) and per-year commodity trade sankey (Plot 5) for
+# every conflict country, every year it is active.
+ANNUAL_CONFLICT_FATALITIES = 100
+
 # PostgreSQL connection string
 DATABASE_URL = os.getenv(
     "DATABASE_URL", "postgresql://lights_out:lights_out@localhost:5432/lights_out"

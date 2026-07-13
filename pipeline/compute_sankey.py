@@ -1,23 +1,32 @@
-"""Compute trade impact Sankey data.
+"""Compute per-year trade-impact Sankey data for every conflict country.
 
-Extracts top exported commodities for conflict countries before onset,
-their destination regions, and the world price change of these commodities
-after the conflict onset.
+For each conflict country and each calendar year it is "in conflict" (ACLED
+fatalities that year >= config.ANNUAL_CONFLICT_FATALITIES), we extract its top
+export commodities that year, the regional destinations of those exports, and
+the world-price change of each commodity from the previous year (world unit
+price = global export value / global export quantity, year-over-year).
 
 Output: data/processed/plot5_trade_sankey.parquet
+    (origin, year, commodity_code, commodity_name, destination,
+     trade_value_kusd, world_price_change_pct)
 """
+from __future__ import annotations
+
 import argparse
-import glob
-import os
-import pandas as pd
 import json
+from collections import defaultdict
+
+import pandas as pd
 
 import config
-from pipeline.utils import get_logger, write_table, to_iso3, region_for_iso3
+from pipeline.utils import get_logger, region_for_iso3, write_table
 
 log = get_logger("pipeline.compute_sankey")
 
 CHUNK = 2_000_000
+TOP_COMMODITIES = 6
+MIN_YEAR, MAX_YEAR = 2000, 2024
+
 
 def _code_to_iso3() -> dict[int, str]:
     codes = pd.read_csv(config.DATASET_TRADE_DIR / "country_codes_V202601.csv")
@@ -25,203 +34,140 @@ def _code_to_iso3() -> dict[int, str]:
     return {int(r["country_code"]): str(r[col]) for _, r in codes.iterrows()
             if pd.notna(r[col]) and str(r[col]) != "nan"}
 
+
 def _product_codes() -> dict[int, str]:
     codes = pd.read_csv(config.DATASET_TRADE_DIR / "product_codes_HS96_V202601.csv")
-    result = {}
+    out = {}
     for _, r in codes.iterrows():
         try:
-            result[int(r["code"])] = str(r["description"])
+            out[int(r["code"])] = str(r["description"])
         except ValueError:
             pass
-    return result
+    return out
 
-def parse_args():
-    p = argparse.ArgumentParser()
-    return p.parse_args()
 
-def main():
-    args = parse_args()
-    
-    # Load registry
+def _active_years() -> dict[str, list[int]]:
+    """iso3 -> years with ACLED fatalities >= the annual conflict threshold."""
+    ac = pd.read_parquet(config.ACLED_PANEL_PARQUET)
+    cy = ac.groupby(["iso3", "year"], as_index=False)["total_fatalities"].sum()
+    cy = cy[cy["total_fatalities"] >= config.ANNUAL_CONFLICT_FATALITIES]
+    out: dict[str, list[int]] = defaultdict(list)
+    for _, r in cy.iterrows():
+        y = int(r["year"])
+        if MIN_YEAR <= y <= MAX_YEAR:
+            out[r["iso3"]].append(y)
+    return {k: sorted(v) for k, v in out.items()}
+
+
+def _short_desc(desc: str) -> str:
+    s = desc.split(":")[0].split(",")[0].strip().capitalize()
+    return s[:27] + "..." if len(s) > 30 else s
+
+
+def parse_args(argv=None):
+    return argparse.ArgumentParser(description=__doc__).parse_args(argv)
+
+
+def main(argv=None) -> int:
+    parse_args(argv)
+
     if not config.COUNTRIES_JSON.exists():
         log.error("countries.json missing")
         return 1
-        
-    with open(config.COUNTRIES_JSON) as f:
-        registry = json.load(f)
-        
-    conflict_countries = [c for c in registry if c.get("has_conflict") and c.get("conflict_onset")]
-    if not conflict_countries:
-        log.warning("No conflict countries found.")
+    registry = json.loads(config.COUNTRIES_JSON.read_text())
+    conflict = {c["iso3"] for c in registry if c.get("has_conflict")}
+
+    active = {iso: yrs for iso, yrs in _active_years().items() if iso in conflict}
+    if not active:
+        log.warning("no active conflict-years found")
         return 0
-        
+
     code2iso = _code_to_iso3()
     iso2code = {v: k for k, v in code2iso.items()}
     product_desc = _product_codes()
-    
-    # Group required years for conflict countries
-    # Y_before = onset_year - 1
-    # Y_after = onset_year + 2
-    
-    country_years = []
-    required_years = set()
-    for c in conflict_countries:
-        onset_year = int(c["conflict_onset"][:4])
-        y_before = onset_year - 1
-        y_after = onset_year + 2
-        # restrict to valid BACI range
-        y_before = max(2000, min(y_before, 2024))
-        y_after = max(2000, min(y_after, 2024))
-        
-        country_code = iso2code.get(c["iso3"])
-        if not country_code:
-            continue
-            
-        country_years.append({
-            "iso3": c["iso3"],
-            "code": country_code,
-            "y_before": y_before,
-            "y_after": y_after
-        })
-        required_years.add(y_before)
-        required_years.add(y_after)
-        
-    # Phase 1: Determine top commodities and destination breakdowns in Y_before
-    # We only need to read files for y_before
-    top_commodities = {} # iso3 -> list of top 5 product codes
-    trade_flows = [] # list of dicts (origin, commodity, destination, value)
-    
-    for y in sorted(list(set([c["y_before"] for c in country_years]))):
+    region_cache: dict[int, str] = {}
+
+    def region_of(j_code: int) -> str:
+        if j_code not in region_cache:
+            iso = code2iso.get(j_code)
+            region_cache[j_code] = region_for_iso3(iso) if iso else "Other"
+        return region_cache[j_code]
+
+    # Years to read: every active year (needs flows + world price) plus the year
+    # before each (needs world price only), within the BACI range.
+    active_years_all = {y for yrs in active.values() for y in yrs}
+    read_years = sorted(y for y in (active_years_all | {y - 1 for y in active_years_all})
+                        if MIN_YEAR <= y <= MAX_YEAR)
+
+    world_price: dict[tuple[int, int], float] = {}          # (year, product) -> unit price
+    prod_dest: dict[tuple, dict] = defaultdict(lambda: defaultdict(float))  # (iso, year, k) -> {region: value}
+    prod_total: dict[tuple, float] = defaultdict(float)     # (iso, year, k) -> total value
+
+    for y in read_years:
         path = config.DATASET_TRADE_DIR / f"BACI_HS96_Y{y}_V202601.csv"
         if not path.exists():
+            log.warning("missing %s", path.name)
             continue
-            
-        log.info(f"Reading {path.name} to find top commodities...")
-        # We need rows where exporter is one of our target countries for this year
-        target_codes = [c["code"] for c in country_years if c["y_before"] == y]
-        if not target_codes:
-            continue
-            
-        df_list = []
-        for chunk in pd.read_csv(path, usecols=["t", "i", "j", "k", "v"], chunksize=CHUNK):
-            subset = chunk[chunk["i"].isin(target_codes)]
-            if not subset.empty:
-                df_list.append(subset)
-                
-        if not df_list:
-            continue
-            
-        df = pd.concat(df_list, ignore_index=True)
-        
-        for code in target_codes:
-            country_df = df[df["i"] == code]
-            if country_df.empty:
-                continue
-                
-            # Aggregate by product to find top 5
-            prod_totals = country_df.groupby("k")["v"].sum().reset_index()
-            prod_totals = prod_totals.sort_values("v", ascending=False).head(6)
-            top_codes = prod_totals["k"].tolist()
-            
-            iso3 = code2iso[code]
-            top_commodities[iso3] = top_codes
-            
-            # Now get destination breakdown for these top codes
-            top_df = country_df[country_df["k"].isin(top_codes)]
-            
-            # Map importers to region
-            def get_dest(j_code):
-                j_iso = code2iso.get(j_code)
-                if not j_iso:
-                    return "Other"
-                # Keep top individual countries or use region
-                return region_for_iso3(j_iso)
-                
-            top_df = top_df.copy()
-            top_df["dest"] = top_df["j"].apply(get_dest)
-            
-            dest_totals = top_df.groupby(["k", "dest"])["v"].sum().reset_index()
-            
-            for _, row in dest_totals.iterrows():
-                trade_flows.append({
-                    "origin": iso3,
-                    "commodity_code": int(row["k"]),
-                    "destination": row["dest"],
-                    "trade_value_kusd": float(row["v"])
-                })
-                
-    # Phase 2: Compute world prices for these commodities in y_before and y_after
-    # World price = sum(v) / sum(q) for the commodity across the entire world
-    all_needed_products = set()
-    for codes in top_commodities.values():
-        all_needed_products.update(codes)
-        
-    world_prices = {} # (year, product_code) -> price
-    
-    for y in sorted(list(required_years)):
-        path = config.DATASET_TRADE_DIR / f"BACI_HS96_Y{y}_V202601.csv"
-        if not path.exists():
-            continue
-            
-        log.info(f"Reading {path.name} to compute world prices...")
-        v_sum = {}
-        q_sum = {}
-        
-        for chunk in pd.read_csv(path, usecols=["t", "k", "v", "q"], chunksize=CHUNK):
-            subset = chunk[chunk["k"].isin(all_needed_products)]
-            if subset.empty:
-                continue
-                
-            g = subset.groupby("k")[["v", "q"]].sum()
-            for k, row in g.iterrows():
-                v_sum[k] = v_sum.get(k, 0) + row["v"]
-                q_sum[k] = q_sum.get(k, 0) + row["q"]
-                
-        for k in v_sum:
-            if q_sum[k] > 0:
-                world_prices[(y, k)] = v_sum[k] / q_sum[k]
-                
-    # Assemble final dataset
-    final_rows = []
-    for flow in trade_flows:
-        iso3 = flow["origin"]
-        k = flow["commodity_code"]
-        
-        # Find the country's timeline
-        c_info = next((c for c in country_years if c["iso3"] == iso3), None)
-        if not c_info:
-            continue
-            
-        p_before = world_prices.get((c_info["y_before"], k))
-        p_after = world_prices.get((c_info["y_after"], k))
-        
-        price_change_pct = 0.0
-        if p_before and p_after and p_before > 0:
-            price_change_pct = ((p_after - p_before) / p_before) * 100.0
-            
-        # Clean product description (take first part before colon/comma)
-        desc = product_desc.get(k, str(k))
-        short_desc = desc.split(":")[0].split(",")[0].strip().capitalize()
-        if len(short_desc) > 30:
-            short_desc = short_desc[:27] + "..."
-            
-        final_rows.append({
-            "origin": iso3,
-            "commodity_code": k,
-            "commodity_name": short_desc,
-            "destination": flow["destination"],
-            "trade_value_kusd": flow["trade_value_kusd"],
-            "world_price_change_pct": round(price_change_pct, 1)
-        })
-        
-    if final_rows:
-        df_out = pd.DataFrame(final_rows)
-        write_table(df_out, config.PLOT5_TRADE_SANKEY_PARQUET)
-        log.info(f"Wrote Sankey dataset with {len(df_out)} rows.")
-    else:
-        log.warning("No data found for Sankey dataset.")
-        
+        # conflict countries active in THIS year need their export flows captured
+        active_codes = {iso2code[iso]: iso for iso in active if y in active[iso] and iso in iso2code}
+        wv: dict[int, float] = defaultdict(float)
+        wq: dict[int, float] = defaultdict(float)
+        log.info("reading %s (active countries: %d) ...", path.name, len(active_codes))
+
+        for chunk in pd.read_csv(path, usecols=["t", "i", "j", "k", "v", "q"], chunksize=CHUNK):
+            # world value/quantity per product (all exporters) -> world unit price
+            for k, v in chunk.groupby("k")["v"].sum().items():
+                wv[int(k)] += float(v)
+            for k, q in chunk.groupby("k")["q"].sum().items():
+                wq[int(k)] += float(q)
+            # export flows for the conflict countries active this year
+            if active_codes:
+                sub = chunk[chunk["i"].isin(active_codes)]
+                if not sub.empty:
+                    sub = sub.copy()
+                    sub["origin"] = sub["i"].map(active_codes)
+                    sub["region"] = sub["j"].map(region_of)
+                    for (iso, k, region), v in sub.groupby(["origin", "k", "region"])["v"].sum().items():
+                        prod_dest[(iso, y, int(k))][region] += float(v)
+                        prod_total[(iso, y, int(k))] += float(v)
+
+        for k in wv:
+            if wq[k] > 0:
+                world_price[(y, k)] = wv[k] / wq[k]
+
+    # Assemble: top commodities per (country, active year) + YoY world-price change.
+    by_iy: dict[tuple, list] = defaultdict(list)
+    for (iso, y, k), tot in prod_total.items():
+        by_iy[(iso, y)].append((k, tot))
+
+    rows = []
+    for iso, yrs in active.items():
+        for y in yrs:
+            top = sorted(by_iy.get((iso, y), []), key=lambda kv: kv[1], reverse=True)[:TOP_COMMODITIES]
+            for k, _tot in top:
+                pb, pa = world_price.get((y - 1, k)), world_price.get((y, k))
+                pct = ((pa - pb) / pb * 100.0) if (pb and pa and pb > 0) else 0.0
+                name = _short_desc(product_desc.get(k, str(k)))
+                for region, v in prod_dest[(iso, y, k)].items():
+                    if v <= 0:
+                        continue
+                    rows.append({
+                        "origin": iso, "year": y,
+                        "commodity_code": k, "commodity_name": name,
+                        "destination": region,
+                        "trade_value_kusd": round(float(v), 1),
+                        "world_price_change_pct": round(float(pct), 1),
+                    })
+
+    if not rows:
+        log.warning("no sankey rows produced")
+        return 0
+    df_out = pd.DataFrame(rows)
+    write_table(df_out, config.PLOT5_TRADE_SANKEY_PARQUET)
+    log.info("trade sankey: %d rows, %d countries, years %d-%d",
+             len(df_out), df_out["origin"].nunique(), df_out["year"].min(), df_out["year"].max())
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

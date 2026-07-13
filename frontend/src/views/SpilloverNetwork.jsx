@@ -7,13 +7,15 @@ import { useGlobal } from "../state/GlobalContext";
 
 /* Renders a visualization mapping out spillover effects caused by conflicts, supporting both geo-mapping and force-directed graph modes. */
 export default function SpilloverNetwork() {
-  /* Subscribe to global state to get current country and timeframe selections. */
-  const { selectedCountry, timeWindow } = useGlobal();
-  
-  /* Trigger an API call fetching spillover network metrics based on the current context parameters. */
+  /* Subscribe to global state to get the current country and year selections. */
+  const { selectedCountry, year } = useGlobal();
+
+  /* Fetch the spillover network for the selected country and year (Plot 4 is
+     computed per (epicenter, year); the backend falls back to the country's most
+     recent available year if this one has no network). */
   const { data: envelope, loading, error } = useFetch(
-    () => (selectedCountry ? api.spillover(selectedCountry, timeWindow.start, timeWindow.end) : Promise.resolve(null)),
-    [selectedCountry]
+    () => (selectedCountry ? api.spillover(selectedCountry, year) : Promise.resolve(null)),
+    [selectedCountry, year]
   );
   
   /* Maintain local component state for the layout view and significance filtering settings. */
@@ -131,9 +133,14 @@ export default function SpilloverNetwork() {
   } : null;
 
   /* Output the overall interface embedding form controls to toggle mapping mechanisms and overlay settings. */
+  const yearUsed = envelope.meta?.year;
+  const yearMismatch = yearUsed != null && year != null && yearUsed !== year;
   return (
     <section className="view">
-      <h3>{title} — {epi?.name ?? selectedCountry}</h3>
+      <h3>{title} — {epi?.name ?? selectedCountry}{yearUsed != null ? ` (${yearUsed})` : ""}</h3>
+      {yearMismatch && (
+        <p className="hint" style={{ marginTop: 0 }}>No conflict spillover for {year}; showing the country's most recent active year, {yearUsed}.</p>
+      )}
       <div className="controls" style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap" }}>
         <label>
           <select value={view} onChange={(e) => setView(e.target.value)}>

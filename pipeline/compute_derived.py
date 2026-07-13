@@ -499,92 +499,101 @@ def _trade_dependence(pair: dict, total: dict, neighbor: str, epicenter: str, ye
 
 def _build_plot4(master: pd.DataFrame, adjacency: dict, border_lengths: dict,
                  bilateral_trade: pd.DataFrame, countries: list[dict]) -> pd.DataFrame:
-    """Plot 4 (spillover), for every real conflict epicenter.
+    """Plot 4 (spillover), for every conflict country and every year it is active.
 
-    Edge = residualized, lagged NTL-anomaly correlation between the epicenter and
-    a land-border neighbor (regional common factor partialled out), enriched
-    with: the neighbor's OWN light loss during the window, statistical
-    significance, and exposure (shared border length + pre-war trade
-    dependence). A per-epicenter spillover index summarizes total exported loss.
+    For each conflict epicenter and each calendar year in which its ACLED
+    fatalities reach ``config.ANNUAL_CONFLICT_FATALITIES``, an edge to each
+    land-border neighbor is the residualized, lagged NTL-anomaly correlation over
+    that year (regional common factor partialled out), enriched with the
+    neighbor's OWN light loss that year, statistical significance, shared border
+    length and pre-year trade dependence. A per-(epicenter, year) spillover index
+    summarizes the exported loss. Note: monthly VIIRS only begins 2014, so
+    spillover years are limited to 2014 onward.
     """
+    from collections import defaultdict
+
     from analysis import spillover as sp
 
     name_by = {c["iso3"]: c["name"] for c in countries}
-    # Epicenters must be actual conflict countries — the NTL-shock detector also
-    # fires on non-conflict crashes (e.g. South Africa's load-shedding power
-    # crisis rippling through the shared regional grid), which isn't *conflict*
-    # spillover.
     conflict_isos = {c["iso3"] for c in countries if c.get("has_conflict")}
     pair_value, total_trade = _trade_lookups(bilateral_trade)
 
+    # Enrich each country's monthly lights once; build a (date-position x iso3)
+    # anomaly matrix (feed the smoothed anomaly straight in — the edge builder
+    # partials out the local regional factor itself) plus a fatalities-by-year
+    # lookup for the active-year test.
     enriched: dict[str, pd.DataFrame] = {}
     dates = sorted(master["date"].unique())
     date_pos = {d: i for i, d in enumerate(dates)}
-    wide_des = pd.DataFrame(index=range(len(dates)))
+    years_of_pos = [pd.Timestamp(d).year for d in dates]
+    wide_anom = pd.DataFrame(index=range(len(dates)))
+    fatal_year: dict[tuple[str, int], float] = {}
     for iso3, g in master.groupby("iso3"):
         g = _enrich_country_lights(g)
         enriched[iso3] = g
         col = pd.Series(np.nan, index=range(len(dates)))
         for r in g.itertuples(index=False):
-            col.iloc[date_pos[r.date]] = r.ntl_deseasonalized
-        wide_des[iso3] = col
-    wide_pos = wide_des.reset_index(drop=True)
+            col.iloc[date_pos[r.date]] = r.anomaly_smoothed
+        wide_anom[iso3] = col
+        for y, f in g.groupby(g["date"].dt.year)["total_fatalities"].sum().items():
+            fatal_year[(iso3, int(y))] = float(f)
+    wide_anom = wide_anom.reset_index(drop=True)
 
-    onsets = {iso3: _detect_shock_onset(g) for iso3, g in enriched.items()}
-    buffer = config.SPILLOVER_POST_BUFFER_MONTHS
+    pos_by_year: dict[int, list[int]] = defaultdict(list)
+    for i, y in enumerate(years_of_pos):
+        pos_by_year[int(y)].append(i)
 
+    thr = config.ANNUAL_CONFLICT_FATALITIES
     edge_rows = []
-    for epi, onset_idx in onsets.items():
-        if onset_idx is None or onset_idx == 0 or epi not in conflict_isos:
+    for epi in sorted(conflict_isos):
+        if epi not in wide_anom.columns:
             continue
-        neighbors = [n for n in adjacency.get(epi, []) if n in wide_pos.columns]
+        neighbors = [n for n in adjacency.get(epi, []) if n in wide_anom.columns]
         if not neighbors:
             continue
+        active_years = [y for y in sorted(pos_by_year) if fatal_year.get((epi, y), 0.0) >= thr]
+        for year in active_years:
+            pos_list = pos_by_year[year]
+            if len(pos_list) < config.SPILLOVER_MIN_OVERLAP_MONTHS:
+                continue
+            window_mask = pd.Series(False, index=range(len(dates)))
+            window_mask.iloc[pos_list[0]:pos_list[-1] + 1] = True
+            net = sp.compute_spillover_edges(wide_anom, epi, neighbors, window_mask)
 
-        onset_date = pd.Timestamp(dates[onset_idx])
-        window_end_idx = min(len(dates) - 1, onset_idx + buffer + 12)
-        window_mask = pd.Series(False, index=range(len(dates)))
-        window_mask.iloc[onset_idx:window_end_idx + 1] = True
+            epi_edges = []
+            for e in net["edges"]:
+                nb = e["target"]
+                # Neighbor's OWN light loss during THIS year (positive = it dimmed).
+                nb_g = enriched[nb]
+                nb_win = nb_g[nb_g["date"].dt.year == year]
+                own_loss = float(-(nb_win["anomaly_smoothed"].min())) if len(nb_win) else 0.0
+                own_loss = max(own_loss, 0.0) if np.isfinite(own_loss) else 0.0
 
-        anomaly_ref = sp.anomaly_reference_matrix(wide_pos, [epi, *neighbors], onset_idx)
-        net = sp.compute_spillover_edges(anomaly_ref, epi, neighbors, window_mask)
+                key = f"{min(epi, nb)}|{max(epi, nb)}"
+                border = float(border_lengths.get(key, 0.0))
+                dep = _trade_dependence(pair_value, total_trade, nb, epi, year - 1)
+                pval = _corr_pvalue(e["weight"], e["n_months"])
+                significant = bool(e["n_months"] >= config.SPILLOVER_MIN_OVERLAP_MONTHS and pval < 0.10)
 
-        epi_edges = []
-        for e in net["edges"]:
-            nb = e["target"]
-            # Neighbor's OWN light loss during the window (positive = it dimmed).
-            nb_g = enriched[nb]
-            nb_win = nb_g[(nb_g["date"] >= onset_date) & (nb_g["date"] <= pd.Timestamp(dates[window_end_idx]))]
-            own_loss = float(-(nb_win["anomaly_smoothed"].min())) if len(nb_win) else 0.0
-            own_loss = max(own_loss, 0.0) if np.isfinite(own_loss) else 0.0
+                epi_edges.append({
+                    "source": epi, "source_name": name_by.get(epi, epi),
+                    "target": nb, "target_name": name_by.get(nb, nb),
+                    "year": year,
+                    "weight": e["weight"], "lag_months": e["lag_months"], "n_months": e["n_months"],
+                    "p_value": pval, "significant": significant,
+                    "own_light_loss": own_loss, "border_length": border,
+                    "trade_dependence": dep,
+                    "window_start": dates[pos_list[0]], "window_end": dates[pos_list[-1]],
+                })
 
-            key = f"{min(epi, nb)}|{max(epi, nb)}"
-            border = float(border_lengths.get(key, 0.0))
-            dep = _trade_dependence(pair_value, total_trade, nb, epi, onset_date.year - 1)
-            pval = _corr_pvalue(e["weight"], e["n_months"])
-            significant = bool(e["n_months"] >= config.SPILLOVER_MIN_OVERLAP_MONTHS and pval < 0.10)
-
-            row = {
-                "source": epi, "source_name": name_by.get(epi, epi),
-                "target": nb, "target_name": name_by.get(nb, nb),
-                "weight": e["weight"], "lag_months": e["lag_months"], "n_months": e["n_months"],
-                "p_value": pval, "significant": significant,
-                "own_light_loss": own_loss, "border_length": border,
-                "trade_dependence": dep, "onset_date": onset_date,
-                "window_start": dates[onset_idx], "window_end": dates[window_end_idx],
-            }
-            epi_edges.append(row)
-
-        # Per-epicenter spillover index: total neighbor light loss weighted by
-        # exposure (trade dependence, falling back to a small floor).
-        index = sum(r["own_light_loss"] * (0.1 + (r["trade_dependence"] or 0.0))
-                    for r in epi_edges if r["significant"])
-        for r in epi_edges:
-            r["epicenter_spillover_index"] = round(float(index), 4)
-        edge_rows.extend(epi_edges)
+            index = sum(r["own_light_loss"] * (0.1 + (r["trade_dependence"] or 0.0))
+                        for r in epi_edges if r["significant"])
+            for r in epi_edges:
+                r["epicenter_spillover_index"] = round(float(index), 4)
+            edge_rows.extend(epi_edges)
 
     if not edge_rows:
-        return pd.DataFrame(columns=["source", "target", "weight"])
+        return pd.DataFrame(columns=["source", "target", "year", "weight"])
     return pd.DataFrame(edge_rows)
 
 

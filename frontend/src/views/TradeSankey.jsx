@@ -29,13 +29,15 @@ function getShockColor(pct, alpha = 1) {
 
 /* Exports an interactive Sankey diagram plotting trade destinations and impacts. */
 export default function TradeSankey() {
-  /* Reads global configurations checking the currently focused country state. */
-  const { selectedCountry } = useGlobal();
-  
-  /* Queries the API service to get all relevant trade dependencies for that specific context. */
+  /* Reads global state: the focused country and the selected year. */
+  const { selectedCountry, year } = useGlobal();
+
+  /* Queries the trade impact for that country and year. The sankey is now
+     computed per (country, year); the backend falls back to the country's most
+     recent available year if this one has no commodity data. */
   const { data: envelope, loading, error } = useFetch(
-    () => (selectedCountry ? api.trade(selectedCountry) : Promise.resolve(null)),
-    [selectedCountry]
+    () => (selectedCountry ? api.trade(selectedCountry, year) : Promise.resolve(null)),
+    [selectedCountry, year]
   );
 
   const title = "Commodity World-Price Change";
@@ -151,8 +153,16 @@ export default function TradeSankey() {
   };
 
   /* Returns JSX components outlining interactive diagram frames and supporting visual legends. */
+  const tradeYear = envelope.meta?.trade_year;
+  const yearMismatch = tradeYear != null && year != null && tradeYear !== year;
   return (
     <section className="view" style={{ minHeight: "750px" }}>
+      <h3 style={{ textAlign: "center", margin: "0 0 0.15rem" }}>
+        {title} — {envelope.meta?.country ?? selectedCountry}{tradeYear != null ? ` (${tradeYear})` : ""}
+      </h3>
+      {yearMismatch && (
+        <p className="hint" style={{ textAlign: "center", marginTop: 0 }}>No commodity data for {year}; showing the country's most recent active year, {tradeYear}.</p>
+      )}
       <h3 style={{ textAlign: "center", marginBottom: "0.5rem", letterSpacing: "2px", fontSize: "0.85rem", color: "#adb5bd", textTransform: "uppercase" }}>
         ORIGIN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COMMODITY — WORLD-PRICE CHANGE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DESTINATION
       </h3>

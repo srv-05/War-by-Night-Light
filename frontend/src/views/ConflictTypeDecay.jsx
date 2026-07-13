@@ -56,7 +56,7 @@ export default function ConflictTypeDecay() {
           margin: { t: 30, b: 60, l: 100, r: 20 },
           height: 380,
           yaxis: {
-            title: { text: "Light Decay (Anomaly vs Own Norm)", standoff: 20 },
+            title: { text: "GDP–light anomaly (vs own norm)", standoff: 20 },
             zeroline: true,
             zerolinecolor: "#999",
             zerolinewidth: 2,
@@ -75,8 +75,9 @@ export default function ConflictTypeDecay() {
         config={{ displayModeBar: false }}
       />
       <p className="hint">
-        Distribution of light anomalies for country-years experiencing different conflict types.
-        <span style={{ color: "#b2182b" }}> Lower values indicate greater light loss (darkening)</span>.
+        Distribution of the annual GDP–light anomaly (each country vs its own norm) across
+        country-years, grouped by the conflict types they experienced.
+        <span style={{ color: "#b2182b" }}> Lower = greater darkening</span>.
       </p>
     </section>
   );

@@ -79,12 +79,17 @@ def run(base: str) -> int:
     _expect_envelope(_get(base, "/residual-choropleth", year=years[-1]), "/residual-choropleth?year=")
     ok("GET /residual-choropleth[?year=]")
 
+    # --- KPI summary -------------------------------------------------------
+    kp = _get(base, "/kpis")
+    _expect_envelope(kp, "/kpis")
+    ok("GET /kpis")
+
     # --- View 2 ------------------------------------------------------------
-    cl = _get(base, "/conflict-light-overview")
-    _expect_envelope(cl, "/conflict-light-overview")
-    if "dates" not in cl["data"] or "countries" not in cl["data"]:
-        raise SmokeError("/conflict-light-overview data missing dates/countries")
-    ok("GET /conflict-light-overview")
+    ctd = _get(base, "/conflict-type-decay")
+    _expect_envelope(ctd, "/conflict-type-decay")
+    if "conflict_types" not in ctd["data"]:
+        raise SmokeError("/conflict-type-decay data missing conflict_types")
+    ok("GET /conflict-type-decay")
 
     # --- View 3 ------------------------------------------------------------
     sr = _get(base, f"/country/{conflict}/shock-recovery")

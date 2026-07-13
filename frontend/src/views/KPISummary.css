@@ -1,0 +1,36 @@
+.kpi-summary {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 16px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.kpi-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kpi-label {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.kpi-value {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+}
+
+.kpi-value.highlight {
+  color: var(--accent-orange);
+}
+
+.kpi-value.warning {
+  color: var(--accent-orange);
+}

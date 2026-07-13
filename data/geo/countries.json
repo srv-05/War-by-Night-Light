@@ -1,0 +1,1640 @@
+[
+  {
+    "iso3": "ABW",
+    "name": "Aruba",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "AFG",
+    "name": "Afghanistan",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2017-01-01"
+  },
+  {
+    "iso3": "AGO",
+    "name": "Angola",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2000-01-01"
+  },
+  {
+    "iso3": "AIA",
+    "name": "Anguilla",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ALB",
+    "name": "Albania",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "AND",
+    "name": "Andorra",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ARE",
+    "name": "United Arab Emirates",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ARG",
+    "name": "Argentina",
+    "region": "South America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ARM",
+    "name": "Armenia",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ASM",
+    "name": "American Samoa",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ATA",
+    "name": "Antarctica",
+    "region": "Other",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ATG",
+    "name": "Antigua and Barbuda",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "AUS",
+    "name": "Australia",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "AUT",
+    "name": "Austria",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "AZE",
+    "name": "Azerbaijan",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2020-09-01"
+  },
+  {
+    "iso3": "BDI",
+    "name": "Burundi",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2000-01-01"
+  },
+  {
+    "iso3": "BEL",
+    "name": "Belgium",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BEN",
+    "name": "Benin",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BFA",
+    "name": "Burkina Faso",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2018-09-01"
+  },
+  {
+    "iso3": "BGD",
+    "name": "Bangladesh",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2010-01-01"
+  },
+  {
+    "iso3": "BGR",
+    "name": "Bulgaria",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BHR",
+    "name": "Bahrain",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BHS",
+    "name": "Bahamas",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BIH",
+    "name": "Bosnia and Herzegovina",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BLR",
+    "name": "Belarus",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BLZ",
+    "name": "Belize",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BMU",
+    "name": "Bermuda",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BOL",
+    "name": "Bolivia, Plurinational State of",
+    "region": "South America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BRA",
+    "name": "Brazil",
+    "region": "South America",
+    "has_conflict": true,
+    "conflict_onset": "2018-01-01"
+  },
+  {
+    "iso3": "BRB",
+    "name": "Barbados",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BRN",
+    "name": "Brunei Darussalam",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BTN",
+    "name": "Bhutan",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BVT",
+    "name": "Bouvet Island",
+    "region": "Antarctica",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "BWA",
+    "name": "Botswana",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "CAF",
+    "name": "Central African Republic",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2012-12-01"
+  },
+  {
+    "iso3": "CAN",
+    "name": "Canada",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "CCK",
+    "name": "Cocos (Keeling) Islands",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "CHE",
+    "name": "Switzerland",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "CHL",
+    "name": "Chile",
+    "region": "South America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "CHN",
+    "name": "China",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "CIV",
+    "name": "C\u00f4te d'Ivoire",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2002-10-01"
+  },
+  {
+    "iso3": "CMR",
+    "name": "Cameroon",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2014-06-01"
+  },
+  {
+    "iso3": "COD",
+    "name": "Congo, The Democratic Republic of the",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2000-01-01"
+  },
+  {
+    "iso3": "COG",
+    "name": "Congo",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "COK",
+    "name": "Cook Islands",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "COL",
+    "name": "Colombia",
+    "region": "South America",
+    "has_conflict": true,
+    "conflict_onset": "2018-01-01"
+  },
+  {
+    "iso3": "COM",
+    "name": "Comoros",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "CPV",
+    "name": "Cabo Verde",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "CRI",
+    "name": "Costa Rica",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "CUB",
+    "name": "Cuba",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "CXR",
+    "name": "Christmas Island",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "CYM",
+    "name": "Cayman Islands",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "CYP",
+    "name": "Cyprus",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "CZE",
+    "name": "Czechia",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "DEU",
+    "name": "Germany",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "DJI",
+    "name": "Djibouti",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "DMA",
+    "name": "Dominica",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "DNK",
+    "name": "Denmark",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "DOM",
+    "name": "Dominican Republic",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "DZA",
+    "name": "Algeria",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2000-01-01"
+  },
+  {
+    "iso3": "ECU",
+    "name": "Ecuador",
+    "region": "South America",
+    "has_conflict": true,
+    "conflict_onset": "2022-01-01"
+  },
+  {
+    "iso3": "EGY",
+    "name": "Egypt",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2011-01-01"
+  },
+  {
+    "iso3": "ERI",
+    "name": "Eritrea",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ESH",
+    "name": "Western Sahara",
+    "region": "Other",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ESP",
+    "name": "Spain",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "EST",
+    "name": "Estonia",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ETH",
+    "name": "Ethiopia",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2000-03-01"
+  },
+  {
+    "iso3": "FIN",
+    "name": "Finland",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "FJI",
+    "name": "Fiji",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "FLK",
+    "name": "Falkland Islands (Malvinas)",
+    "region": "South America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "FRA",
+    "name": "France",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "FRO",
+    "name": "Faroe Islands",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "FSM",
+    "name": "Micronesia, Federated States of",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GAB",
+    "name": "Gabon",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GEO",
+    "name": "Georgia",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GGY",
+    "name": "Guernsey",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GHA",
+    "name": "Ghana",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GIB",
+    "name": "Gibraltar",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GIN",
+    "name": "Guinea",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2000-09-01"
+  },
+  {
+    "iso3": "GLP",
+    "name": "Guadeloupe",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GMB",
+    "name": "Gambia",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GNB",
+    "name": "Guinea-Bissau",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GNQ",
+    "name": "Equatorial Guinea",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GRC",
+    "name": "Greece",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GRD",
+    "name": "Grenada",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GRL",
+    "name": "Greenland",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GTM",
+    "name": "Guatemala",
+    "region": "North America",
+    "has_conflict": true,
+    "conflict_onset": "2018-01-01"
+  },
+  {
+    "iso3": "GUF",
+    "name": "French Guiana",
+    "region": "South America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GUM",
+    "name": "Guam",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "GUY",
+    "name": "Guyana",
+    "region": "South America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "HKG",
+    "name": "Hong Kong",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "HMD",
+    "name": "Heard Island and McDonald Islands",
+    "region": "Antarctica",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "HND",
+    "name": "Honduras",
+    "region": "North America",
+    "has_conflict": true,
+    "conflict_onset": "2018-01-01"
+  },
+  {
+    "iso3": "HRV",
+    "name": "Croatia",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "HTI",
+    "name": "Haiti",
+    "region": "North America",
+    "has_conflict": true,
+    "conflict_onset": "2018-05-01"
+  },
+  {
+    "iso3": "HUN",
+    "name": "Hungary",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "IDN",
+    "name": "Indonesia",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "IMN",
+    "name": "Isle of Man",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "IND",
+    "name": "India",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2016-01-01"
+  },
+  {
+    "iso3": "IOT",
+    "name": "British Indian Ocean Territory",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "IRL",
+    "name": "Ireland",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "IRN",
+    "name": "Iran, Islamic Republic of",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "IRQ",
+    "name": "Iraq",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2016-01-01"
+  },
+  {
+    "iso3": "ISL",
+    "name": "Iceland",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ISR",
+    "name": "Israel",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2023-10-01"
+  },
+  {
+    "iso3": "ITA",
+    "name": "Italy",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "JAM",
+    "name": "Jamaica",
+    "region": "North America",
+    "has_conflict": true,
+    "conflict_onset": "2022-03-01"
+  },
+  {
+    "iso3": "JEY",
+    "name": "Jersey",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "JOR",
+    "name": "Jordan",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "JPN",
+    "name": "Japan",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "KAZ",
+    "name": "Kazakhstan",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "KEN",
+    "name": "Kenya",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2007-12-01"
+  },
+  {
+    "iso3": "KGZ",
+    "name": "Kyrgyzstan",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "KHM",
+    "name": "Cambodia",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "KIR",
+    "name": "Kiribati",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "KNA",
+    "name": "Saint Kitts and Nevis",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "KOR",
+    "name": "Korea, Republic of",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "KWT",
+    "name": "Kuwait",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "LAO",
+    "name": "Lao People's Democratic Republic",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "LBN",
+    "name": "Lebanon",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2023-10-01"
+  },
+  {
+    "iso3": "LBR",
+    "name": "Liberia",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "LBY",
+    "name": "Libya",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2011-02-01"
+  },
+  {
+    "iso3": "LCA",
+    "name": "Saint Lucia",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "LIE",
+    "name": "Liechtenstein",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "LKA",
+    "name": "Sri Lanka",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "LSO",
+    "name": "Lesotho",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "LTU",
+    "name": "Lithuania",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "LUX",
+    "name": "Luxembourg",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "LVA",
+    "name": "Latvia",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MAR",
+    "name": "Morocco",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MCO",
+    "name": "Monaco",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MDA",
+    "name": "Moldova, Republic of",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MDG",
+    "name": "Madagascar",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2022-07-01"
+  },
+  {
+    "iso3": "MDV",
+    "name": "Maldives",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MEX",
+    "name": "Mexico",
+    "region": "North America",
+    "has_conflict": true,
+    "conflict_onset": "2018-01-01"
+  },
+  {
+    "iso3": "MHL",
+    "name": "Marshall Islands",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MKD",
+    "name": "North Macedonia",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MLI",
+    "name": "Mali",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2013-01-01"
+  },
+  {
+    "iso3": "MLT",
+    "name": "Malta",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MMR",
+    "name": "Myanmar",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2010-08-01"
+  },
+  {
+    "iso3": "MNE",
+    "name": "Montenegro",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MNG",
+    "name": "Mongolia",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MNP",
+    "name": "Northern Mariana Islands",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MOZ",
+    "name": "Mozambique",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2018-12-01"
+  },
+  {
+    "iso3": "MRT",
+    "name": "Mauritania",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MSR",
+    "name": "Montserrat",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MTQ",
+    "name": "Martinique",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MUS",
+    "name": "Mauritius",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MWI",
+    "name": "Malawi",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MYS",
+    "name": "Malaysia",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "MYT",
+    "name": "Mayotte",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "NAM",
+    "name": "Namibia",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "NCL",
+    "name": "New Caledonia",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "NFK",
+    "name": "Norfolk Island",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "NGA",
+    "name": "Nigeria",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2000-02-01"
+  },
+  {
+    "iso3": "NIC",
+    "name": "Nicaragua",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "NIU",
+    "name": "Niue",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "NLD",
+    "name": "Netherlands",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "NOR",
+    "name": "Norway",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "NPL",
+    "name": "Nepal",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "NRU",
+    "name": "Nauru",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "NZL",
+    "name": "New Zealand",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "OMN",
+    "name": "Oman",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "PAK",
+    "name": "Pakistan",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2010-01-01"
+  },
+  {
+    "iso3": "PAN",
+    "name": "Panama",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "PCN",
+    "name": "Pitcairn",
+    "region": "Other",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "PER",
+    "name": "Peru",
+    "region": "South America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "PHL",
+    "name": "Philippines",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2016-01-01"
+  },
+  {
+    "iso3": "PLW",
+    "name": "Palau",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "PNG",
+    "name": "Papua New Guinea",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "POL",
+    "name": "Poland",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "PRI",
+    "name": "Puerto Rico",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "PRT",
+    "name": "Portugal",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "PRY",
+    "name": "Paraguay",
+    "region": "South America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "PSE",
+    "name": "Palestine, State of",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2022-08-01"
+  },
+  {
+    "iso3": "PYF",
+    "name": "French Polynesia",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "QAT",
+    "name": "Qatar",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "REU",
+    "name": "R\u00e9union",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ROU",
+    "name": "Romania",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "RUS",
+    "name": "Russian Federation",
+    "region": "Europe",
+    "has_conflict": true,
+    "conflict_onset": "2023-12-01"
+  },
+  {
+    "iso3": "RWA",
+    "name": "Rwanda",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SAU",
+    "name": "Saudi Arabia",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2015-05-01"
+  },
+  {
+    "iso3": "SDN",
+    "name": "Sudan",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2000-01-01"
+  },
+  {
+    "iso3": "SEN",
+    "name": "Senegal",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SGP",
+    "name": "Singapore",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SGS",
+    "name": "South Georgia and the South Sandwich Islands",
+    "region": "South America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SHN",
+    "name": "Saint Helena, Ascension and Tristan da Cunha",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SLB",
+    "name": "Solomon Islands",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SLE",
+    "name": "Sierra Leone",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SLV",
+    "name": "El Salvador",
+    "region": "North America",
+    "has_conflict": true,
+    "conflict_onset": "2018-01-01"
+  },
+  {
+    "iso3": "SMR",
+    "name": "San Marino",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SOM",
+    "name": "Somalia",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2003-02-01"
+  },
+  {
+    "iso3": "SRB",
+    "name": "Serbia",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SSD",
+    "name": "South Sudan",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2011-08-01"
+  },
+  {
+    "iso3": "STP",
+    "name": "Sao Tome and Principe",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SUR",
+    "name": "Suriname",
+    "region": "South America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SVK",
+    "name": "Slovakia",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SVN",
+    "name": "Slovenia",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SWE",
+    "name": "Sweden",
+    "region": "Europe",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SWZ",
+    "name": "Eswatini",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SYC",
+    "name": "Seychelles",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "SYR",
+    "name": "Syrian Arab Republic",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2017-01-01"
+  },
+  {
+    "iso3": "TCA",
+    "name": "Turks and Caicos Islands",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "TCD",
+    "name": "Chad",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2002-10-01"
+  },
+  {
+    "iso3": "TGO",
+    "name": "Togo",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "THA",
+    "name": "Thailand",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "TJK",
+    "name": "Tajikistan",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "TKL",
+    "name": "Tokelau",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "TKM",
+    "name": "Turkmenistan",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "TLS",
+    "name": "Timor-Leste",
+    "region": "Other",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "TON",
+    "name": "Tonga",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "TTO",
+    "name": "Trinidad and Tobago",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "TUN",
+    "name": "Tunisia",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "TUV",
+    "name": "Tuvalu",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "TWN",
+    "name": "Taiwan, Province of China",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "TZA",
+    "name": "Tanzania, United Republic of",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "UGA",
+    "name": "Uganda",
+    "region": "Africa",
+    "has_conflict": true,
+    "conflict_onset": "2000-01-01"
+  },
+  {
+    "iso3": "UKR",
+    "name": "Ukraine",
+    "region": "Europe",
+    "has_conflict": true,
+    "conflict_onset": "2018-01-01"
+  },
+  {
+    "iso3": "UMI",
+    "name": "United States Minor Outlying Islands",
+    "region": "Other",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "URY",
+    "name": "Uruguay",
+    "region": "South America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "USA",
+    "name": "United States",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "UZB",
+    "name": "Uzbekistan",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "VAT",
+    "name": "Holy See (Vatican City State)",
+    "region": "Other",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "VCT",
+    "name": "Saint Vincent and the Grenadines",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "VEN",
+    "name": "Venezuela, Bolivarian Republic of",
+    "region": "South America",
+    "has_conflict": true,
+    "conflict_onset": "2018-01-01"
+  },
+  {
+    "iso3": "VGB",
+    "name": "Virgin Islands, British",
+    "region": "North America",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "VNM",
+    "name": "Viet Nam",
+    "region": "Asia",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "VUT",
+    "name": "Vanuatu",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "WLF",
+    "name": "Wallis and Futuna",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "WSM",
+    "name": "Samoa",
+    "region": "Oceania",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "YEM",
+    "name": "Yemen",
+    "region": "Asia",
+    "has_conflict": true,
+    "conflict_onset": "2015-01-01"
+  },
+  {
+    "iso3": "ZAF",
+    "name": "South Africa",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ZMB",
+    "name": "Zambia",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  },
+  {
+    "iso3": "ZWE",
+    "name": "Zimbabwe",
+    "region": "Africa",
+    "has_conflict": false,
+    "conflict_onset": null
+  }
+]

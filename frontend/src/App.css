@@ -1,0 +1,122 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f5f6f8;
+  color: #1a1a2e;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 3rem;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.5rem 0 1.25rem;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 1.25rem;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.subtitle {
+  margin: 0.2rem 0 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.selection-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1rem;
+}
+
+.clear-btn {
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.row.two-col {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.row.overview-row {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+}
+
+@media (max-width: 900px) {
+  .row.two-col,
+  .row.overview-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.view {
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  padding: 0.9rem 1rem 1.1rem;
+}
+
+.view h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+}
+
+.status {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.status.error {
+  color: #c1121f;
+}
+
+.hint {
+  color: #666;
+  font-size: 0.82rem;
+  margin: 0.5rem 0 0;
+}
+
+.controls {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.caveats {
+  margin: 0.6rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+  color: #7a5c00;
+}
+
+.fit-note {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+body.has-sidebar .dashboard {
+  margin-left: 260px;
+  max-width: calc(100% - 260px);
+}

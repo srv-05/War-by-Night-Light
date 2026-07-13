@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: lights_out
+      POSTGRES_PASSWORD: lights_out
+      POSTGRES_DB: lights_out
+    ports:
+      - "5432:5432"
+    volumes:
+      - lights_out_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lights_out"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://lights_out:lights_out@postgres:5432/lights_out
+      DATA_BACKEND: parquet
+      CORS_ORIGINS: http://localhost:5173
+      FLASK_HOST: 0.0.0.0
+      FLASK_PORT: "5000"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  lights_out_pgdata:

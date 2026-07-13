@@ -1,0 +1,40 @@
+# ===========================================================================
+# lights-out / War by Night Light — single environment for pipeline, analysis
+# and backend. `pip install -r requirements.txt` covers everything except the
+# frontend (see frontend/package.json).
+# ===========================================================================
+
+# --- Core data stack ---------------------------------------------------------
+pandas>=2.0
+numpy>=1.24
+pyarrow>=12.0            # parquet read/write
+scipy>=1.10               # nnls / SLSQP for synthetic control
+scikit-learn>=1.3         # regression + scaling for the derived-info models
+
+# --- Backend (Flask REST API) ------------------------------------------------
+Flask>=3.0
+Flask-Cors>=4.0
+SQLAlchemy>=2.0
+psycopg2-binary>=2.9      # PostgreSQL driver
+gunicorn>=21.0            # production WSGI server
+
+# --- Acquisition --------------------------------------------------------------
+requests>=2.31            # World Bank + ACLED REST APIs
+earthengine-api>=0.1.380  # Google Earth Engine Python client (VIIRS export)
+
+# --- Geospatial (boundaries, land-border adjacency + shared border lengths) --
+shapely>=2.0            # polygon touches/intersection for the real adjacency graph
+geopandas>=0.13         # optional; shapely alone is enough for adjacency
+
+# --- Country-code standardization (ISO3 tagging) -----------------------------
+pycountry>=22.0          # name/numeric -> ISO3 alpha-3 for ACLED + World Bank
+pycountry_convert>=0.7   # ISO3 -> continent/region for the country registry
+
+# --- Config / testing ---------------------------------------------------------
+python-dotenv>=1.0
+pytest>=7.4
+
+# --- Dev / notebooks (optional) ------------------------------------------------
+jupyter>=1.0
+matplotlib>=3.7
+tqdm>=4.65

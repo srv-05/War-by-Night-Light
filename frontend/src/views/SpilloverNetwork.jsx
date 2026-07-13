@@ -120,7 +120,13 @@ export default function SpilloverNetwork() {
       line: { color: "#7a1420", width: 0.5 }, colorbar: { title: "own light loss", thickness: 8, x: 1 },
     },
     text2: neighborNodes.map((n) => n.name),
-    hovertext: neighborNodes.map((n) => `${n.name}: ${(n.own_light_loss * 100 || 0).toFixed(0)}% own light loss`),
+    hovertext: neighborNodes.map((n) => {
+      let text = `${n.name}: ${(n.own_light_loss * 100 || 0).toFixed(0)}% own light loss`;
+      if (n.own_gdp_loss != null) {
+        text += `<br>${(n.own_gdp_loss * 100).toFixed(1)}% GDP loss`;
+      }
+      return text;
+    }),
     hoverinfo: "text", showlegend: false,
   };
   

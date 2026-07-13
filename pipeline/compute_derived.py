@@ -569,6 +569,14 @@ def _build_plot4(master: pd.DataFrame, adjacency: dict, border_lengths: dict,
                 own_loss = float(-(nb_win["anomaly_smoothed"].min())) if len(nb_win) else 0.0
                 own_loss = max(own_loss, 0.0) if np.isfinite(own_loss) else 0.0
 
+                own_gdp_loss = None
+                nb_prev_win = nb_g[nb_g["date"].dt.year == year - 1]
+                if len(nb_win) and len(nb_prev_win) and "gdp_constant_usd" in nb_win.columns:
+                    gdp_curr = float(nb_win["gdp_constant_usd"].iloc[0]) if pd.notna(nb_win["gdp_constant_usd"].iloc[0]) else None
+                    gdp_prev = float(nb_prev_win["gdp_constant_usd"].iloc[0]) if pd.notna(nb_prev_win["gdp_constant_usd"].iloc[0]) else None
+                    if gdp_curr is not None and gdp_prev is not None and gdp_prev > 0:
+                        own_gdp_loss = max(0.0, (gdp_prev - gdp_curr) / gdp_prev)
+
                 key = f"{min(epi, nb)}|{max(epi, nb)}"
                 border = float(border_lengths.get(key, 0.0))
                 dep = _trade_dependence(pair_value, total_trade, nb, epi, year - 1)
@@ -581,7 +589,7 @@ def _build_plot4(master: pd.DataFrame, adjacency: dict, border_lengths: dict,
                     "year": year,
                     "weight": e["weight"], "lag_months": e["lag_months"], "n_months": e["n_months"],
                     "p_value": pval, "significant": significant,
-                    "own_light_loss": own_loss, "border_length": border,
+                    "own_light_loss": own_loss, "own_gdp_loss": own_gdp_loss, "border_length": border,
                     "trade_dependence": dep,
                     "window_start": dates[pos_list[0]], "window_end": dates[pos_list[-1]],
                 })

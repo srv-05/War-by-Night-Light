@@ -79,6 +79,7 @@ def spillover_network(iso3: str):
         nodes.append({
             "iso3": r["target"], "name": r.get("target_name"), "role": "neighbor",
             "lonlat": cen.get(r["target"]), "own_light_loss": r.get("own_light_loss"),
+            "own_gdp_loss": r.get("own_gdp_loss"),
         })
 
     return envelope(

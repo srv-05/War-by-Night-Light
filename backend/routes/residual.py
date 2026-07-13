@@ -23,7 +23,11 @@ def residual_choropleth():
     """
     # Fetch the country-year residual and anomaly data from the database.
     df = db.plot1_residual()
-    year = request.args.get("year", type=int) or int(df["year"].max())
+    # Filter the available years to 2014-2023
+    valid_years = sorted(int(y) for y in df["year"].dropna().unique() if 2014 <= int(y) <= 2023)
+    default_year = max(valid_years) if valid_years else 2023
+    
+    year = request.args.get("year", type=int) or default_year
     
     # Filter the data to include only the requested year and exclude missing anomalies.
     sub = df[(df["year"] == year) & df["residual_anomaly"].notna()]
@@ -58,7 +62,7 @@ def residual_choropleth():
 
     return envelope(
         rows, year=year,
-        available_years=sorted(int(y) for y in df["year"].dropna().unique()),
+        available_years=valid_years,
         fit=fit, color_range=round(max(color_range, 0.4), 3),
     )
 

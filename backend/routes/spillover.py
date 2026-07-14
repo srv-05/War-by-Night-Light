@@ -16,26 +16,62 @@ from backend.routes import envelope
 bp = Blueprint("spillover", __name__)
 
 
-def _centroids() -> dict:
-    """
-    Computes the geographical center point for each country based on its boundary polygon.
-    Returns a mapping from ISO3 country codes to their respective longitude and latitude coordinates.
-    """
-    out = {}
-    for f in db.geojson().get("features", []):
-        iso3 = f["properties"].get("iso3")
-        coords = f["geometry"]["coordinates"]
-        lons, lats = [], []
+def _largest_ring(geom: dict) -> list:
+    """Exterior ring of the polygon with the most vertices (the main landmass),
+    so island/exclave clutter doesn't drag the position off the mainland."""
+    polys = geom["coordinates"] if geom["type"] == "MultiPolygon" else [geom["coordinates"]]
+    return max(polys, key=lambda p: len(p[0]))[0]
 
-        def walk(c):
-            if isinstance(c[0], (int, float)):
-                lons.append(c[0]); lats.append(c[1])
-            else:
-                for x in c:
-                    walk(x)
+
+def _centroid_lonlat(geom: dict) -> tuple:
+    """(lon, lat, lon_span) of a country's main landmass, robust to the
+    antimeridian. Russia's polygon wraps from +180 to -180 (Chukotka), which
+    naively averages to ~0 deg E and floats the node into the Arctic; we unwrap
+    negative longitudes by +360 before averaging so the centre lands on land."""
+    ring = _largest_ring(geom)
+    lons = [p[0] for p in ring]
+    lats = [p[1] for p in ring]
+    if max(lons) - min(lons) > 180:  # crosses the antimeridian -> unwrap
+        lons = [l + 360 if l < 0 else l for l in lons]
+    span = max(lons) - min(lons)
+    cx = sum(lons) / len(lons)
+    cy = sum(lats) / len(lats)
+    if cx > 180:
+        cx -= 360
+    return cx, cy, span
+
+
+def _centroids(epicenter: str | None = None) -> dict:
+    """iso3 -> [lon, lat] label point for the network.
+
+    Each country sits at its main-landmass centroid, EXCEPT very wide countries
+    (Russia, and other >90 deg-span states) whose centroid falls thousands of km
+    from the shared border: those snap to the point of their territory nearest
+    the epicenter, so e.g. Russia's node sits on western Russia by Ukraine rather
+    than in central Siberia (which would also zoom the whole map out to Asia).
+    """
+    from shapely.geometry import Point, shape
+    from shapely.ops import nearest_points
+
+    feats = {f["properties"].get("iso3"): f for f in db.geojson().get("features", [])}
+
+    epi_pt = None
+    if epicenter and epicenter in feats:
         try:
-            walk(coords)
-            out[iso3] = [(min(lons) + max(lons)) / 2, (min(lats) + max(lats)) / 2]
+            ex, ey, _ = _centroid_lonlat(feats[epicenter]["geometry"])
+            epi_pt = Point(ex, ey)
+        except Exception:
+            epi_pt = None
+
+    out = {}
+    for iso3, f in feats.items():
+        try:
+            cx, cy, span = _centroid_lonlat(f["geometry"])
+            if span > 90 and epi_pt is not None and iso3 != epicenter:
+                p, _ = nearest_points(shape(f["geometry"]), epi_pt)
+                out[iso3] = [round(p.x, 3), round(p.y, 3)]
+            else:
+                out[iso3] = [round(cx, 3), round(cy, 3)]
         except Exception:
             pass
     return out
@@ -69,7 +105,7 @@ def spillover_network(iso3: str):
             yr[col] = pd.to_datetime(yr[col]).dt.strftime("%Y-%m-%d")
     edges = yr.replace({np.nan: None}).to_dict(orient="records")
 
-    cen = _centroids()
+    cen = _centroids(iso3)
     spillover_index = edges[0]["epicenter_spillover_index"] if edges else None
     epi_name = edges[0]["source_name"] if edges else iso3
 
